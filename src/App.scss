@@ -1,0 +1,90 @@
+$L_height: 50px;
+$L_Lheight: 50px;
+$L_font: 30px;
+
+$transition: all 1s ease-in-out;
+
+.App{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: #3b3a3a;
+  padding: 5px 10px;
+  .App-header{
+    color: aliceblue;
+    background: transparent(45deg, #131313, #dedede);
+    transition: $transition;
+    height: 1.5*$L_height;
+    .App-header-title{
+      display: flex;
+      
+      align-items: center;
+      font-size: $L_font;
+      font-weight: 600;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    
+    }
+    .App-header-navi{
+      display: flex;
+      overflow-y: auto;
+      flex-wrap: nowrap;
+      padding-bottom: 5px;
+      .navi{
+        display: inline-block;
+        margin-right: 10px;
+        padding: 5px 10px;
+        background: rgb(114, 168, 6);
+        color: white;
+        box-sizing: border-box;
+        transition: all .5s ease-in-out;
+        border-radius: 5px;
+        margin-top: 3px;
+        &:hover{
+          cursor: pointer;
+          background: rgb(132, 192, 72);
+        }
+        &:first-child{
+          margin-left: 0;
+        }
+      }
+    }
+  }
+  .App-content{
+    flex: 1;
+    display: flex;
+  }
+  // extra
+  .hideHeaderBTN {
+    &:hover{cursor: pointer;}
+    z-index: 10;
+    position: fixed;
+    right: 15px;
+    top: 15px;
+    transition: $transition;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    border: 4px solid green;
+    border-radius: 50%;
+  }
+}
+// the state of the .hide
+.hide{
+  &.App-header{
+    height: 0;
+    transform: translateY(-1.5*$L_height);
+  }
+  &.hideHeaderBTN{
+    border-radius: 2px;
+    border: 4px solid white;
+  }
+}
+
+// zindex 10pageclick 100window

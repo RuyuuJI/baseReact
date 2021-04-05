@@ -1,0 +1,33 @@
+
+$M_height: 30px;
+$M_Lheihgt: 30px;
+$M-font: 20px;
+.GameCenter{
+    .GameCenter-header{
+        color: cornsilk;
+        .GameCenter-header-titile{
+            height: $M_height;
+            line-height: $M_Lheihgt;
+            font-size: $M-font;
+        }
+        .GameCenter-header-navi{
+            .navi{
+                display: inline-block;
+                margin-left: 20px;
+                padding: 5px 10px;
+                background: rgb(114, 168, 6);
+                color: white;
+                box-sizing: border-box;
+                transition: all .5s ease-in-out;
+                border-radius: 5px;
+                &:hover{
+                  cursor: pointer;
+                  background: rgb(132, 192, 72);
+                }
+                &:first-child{
+                  margin-left: 0;
+                }
+            }
+        }
+    }
+}

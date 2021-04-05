@@ -1,0 +1,11 @@
+Model Information:
+* title:	Handley Page H.P.42
+* source:	https://sketchfab.com/3d-models/handley-page-hp42-7b7272c0f00d4a31b8b354ae1c8850d0
+* author:	helijah (https://sketchfab.com/helijah)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Handley Page H.P.42" (https://sketchfab.com/3d-models/handley-page-hp42-7b7272c0f00d4a31b8b354ae1c8850d0) by helijah (https://sketchfab.com/helijah) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
