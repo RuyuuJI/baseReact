@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -12,9 +12,11 @@ import {
 ReactDOM.render(
   <React.StrictMode>
     <Router >
-      <Switch >
-        <Route path="/" component={App} />
-      </Switch>
+      <Suspense fallback={<div >Loading</div>}>
+        <Switch >
+          <Route path="/" component={App} />
+        </Switch>
+    </Suspense>
     </Router>
   </React.StrictMode>,
   document.getElementById('root')

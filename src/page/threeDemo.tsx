@@ -36,7 +36,7 @@ class ThreeDemo extends React.Component<{ history: any }, {}> {
                     <p className="ThreeDemo-header-operation" ></p>
                 </header>
                 <div className="ThreeDemo-Game" >
-                    <div id="threeDemoContainer" ></div>
+                    <div id="DemoContainer" ></div>
                     <Suspense fallback={<div >Loading</div>}>
                         <Switch >
                             {routeList.map((route, index) => (

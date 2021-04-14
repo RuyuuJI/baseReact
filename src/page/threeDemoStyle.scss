@@ -1,21 +1,21 @@
 $M_height: 30px;
 $M_Lheihgt: 30px;
 $M-font: 20px;
-.ThreeDemo {
+.WebglDemo {
     display: flex;
     flex: 1;
     position: relative;
-    .ThreeDemo-header {
+    .WebglDemo-header {
         display: inline-flex;
         flex-direction: column;
         z-index: 1;
         color: cornsilk;
-        .ThreeDemo-header-titile {
+        .WebglDemo-header-titile {
             height: $M_height;
             line-height: $M_Lheihgt;
             font-size: $M-font;
         }
-        .ThreeDemo-header-navi {
+        .WebglDemo-header-navi {
             display: flex;
             flex-direction: column;
             justify-content: left;
@@ -37,7 +37,7 @@ $M-font: 20px;
                 }
             }
         }
-        .ThreeDemo-header-operation{
+        .WebglDemo-header-operation{
             display: inline-block;
             margin-top: 10px;
             height: 10px;
@@ -46,12 +46,12 @@ $M-font: 20px;
         }
     }
     // game content
-    .ThreeDemo-Game {
+    .WebglDemo-Game {
         flex: 1;
         padding-left: 10px;
         position: relative;
         overflow: hidden;
-        #threeDemoContainer {
+        #DemoContainer {
             position: absolute;
             width: 100%;
             height: 100%;

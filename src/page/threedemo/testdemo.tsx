@@ -7,7 +7,7 @@ import { addXot, AnimationGLTF } from './tool/addModel'
 import * as dat from 'dat.gui'
 // -----------
 import { addGround, PointShinning } from './tool/addObject'
-
+import {Plane} from './gohome/boy'
 // export the component
 class Secen extends React.Component {
     componentWillMount() {
@@ -39,11 +39,7 @@ class Secen extends React.Component {
         animateLoop && animateLoop!.destroy()
         animateLoop = null
         gui = null
-        renderer = renderer as THREE.WebGLRenderer
-        renderer.dispose()
-        renderer.clear()
-        renderer = null
-        controler = null
+      
         scene.clear()
         scene = new THREE.Scene()
     }
@@ -65,6 +61,11 @@ const clock = new THREE.Clock();
 let gui: dat.GUI | null = null
 let animateLoop: loop | null
 
+const paperplane = new Plane()
+scene.add(paperplane.mesh)
+paperplane.mesh.matrixAutoUpdate = true
+
+console.log('paperplane', paperplane)
 function init() {
     renderer = renderer as THREE.WebGLRenderer
     renderer.setSize(device.width, device.height)
@@ -116,6 +117,12 @@ function initGUI(xbot: AnimationGLTF) {
         })
     })
     foldAdditon.open()
+
+    const planeGUI = gui.addFolder('paperplane')
+    planeGUI.open()
+    Object.keys(paperplane.mesh.children[0].rotation).forEach(name => {
+        foldAdditon.add(paperplane.mesh.children[0].rotation, name, 0, Math.PI, Math.PI / 180)
+    })
 }
 // ====================
 

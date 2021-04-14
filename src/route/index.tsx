@@ -2,7 +2,7 @@ import Index from '../page/index'
 import UserInfo from '../page/userInfo'
 import GameCenter from '../page/gameCenter'
 import ThreeDemo from '../page/threeDemo'
-
+import WebglDemo from '../page/webglDemo'
 export const routeList = [
     {
         name: 'index',
@@ -28,6 +28,12 @@ export const routeList = [
         path: '/threedemo',
         meta: {},
         component: ThreeDemo
+    },
+    {
+        name: 'webgldemo',
+        path: '/webgldemo',
+        meta: {},
+        component: WebglDemo
     }
 ]
 

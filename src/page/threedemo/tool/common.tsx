@@ -1,5 +1,5 @@
 
-export const containerDom: HTMLElement = document.getElementById('threeDemoContainer') as HTMLElement // canvas dom
+export const containerDom: HTMLElement = document.getElementById('DemoContainer') as HTMLElement // canvas dom
 
 
 export const device = {
@@ -19,9 +19,11 @@ function renderloop() {
         requestAnimationFrame(loop);
     }
 
-    setInterval(() => {
+    const timer = setInterval(() => {
+        
         device.frame = tempFrame || device.frame
         tempFrame = 0
+        clearTimeout(timer)
     }, 1000)
     loop()
 }

@@ -6,7 +6,7 @@ enum PersonState { 'ready', 'stop', 'enable' } // the state of the player
 enum GameState { 'ready', 'ing', 'drew', 'win', 'pause' }
 
 
-function NineChess() {
+export function NineChess() {
     let playerA: person, playerB: person
     playerA = {
         name: '测试仪',
