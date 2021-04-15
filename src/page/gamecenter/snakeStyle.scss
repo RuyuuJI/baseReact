@@ -1,0 +1,60 @@
+$bgColor: rgb(90, 134, 105);
+
+$size: 10px;
+.SnakeGame{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    background: $bgColor;
+    border: 5px solid rgb(31, 30, 30);
+    border-radius: 10px;
+    .SnakeGame-game{
+        display: block;
+        position: relative;
+        // width: 500px;
+        // height: 500px;
+        border: 2px solid #1b1b1b;
+        margin: 10px;
+    }
+    .SnakeGame-bord{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        flex-flow: row nowrap;
+        padding-top: 10px;
+        padding-bottom: 20px;
+    }
+}
+.snake{
+    position: absolute;
+    width: $size;
+    height: $size;
+    background: lightyellow;
+    border-radius: 3px;
+    border: 1px solid transparent;
+}
+.food{
+    position: absolute;
+    display: block;
+    // width: $size;
+    // height: $size;
+    border: 1px solid transparent;
+
+    transform: rotate(45deg);
+    background-repeat: no-repeat;
+    background-image: linear-gradient(45deg, transparent, black),
+    linear-gradient(-135deg, transparent, red),
+    linear-gradient(45deg, transparent, white),
+    linear-gradient(-45deg, transparent, blue);
+    background-position: 0 0, ($size * .5) 0, 0 ($size * .5), ($size * .5) ($size * .5);
+    background-size: $size/2 $size/2, $size/2 $size/2,$size/2 $size/2,$size/2 $size/2;
+    animation: rotateI 3s infinite;
+    @keyframes rotateI {
+        from {
+            transform: rotate(0);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}
