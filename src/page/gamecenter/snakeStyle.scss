@@ -2,8 +2,9 @@ $bgColor: rgb(90, 134, 105);
 
 $size: 10px;
 .SnakeGame{
+    
     margin-top: 10px;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     background: $bgColor;
     border: 5px solid rgb(31, 30, 30);
@@ -19,13 +20,14 @@ $size: 10px;
     .SnakeGame-bord{
         display: flex;
         flex-direction: row;
+        align-items: center;
         justify-content: space-around;
         flex-flow: row nowrap;
         padding-top: 10px;
         padding-bottom: 20px;
     }
 }
-.snake{
+.snake-body{
     position: absolute;
     width: $size;
     height: $size;
@@ -56,5 +58,42 @@ $size: 10px;
         to {
             transform: rotate(360deg);
         }
+    }
+}
+.msg {
+    position: absolute;
+    font-size: 20px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    word-break: keep-all;
+    white-space: nowrap;
+}
+.btn{
+    padding: 10px 20px;
+    background: linen;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.phoneControl{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    &>div {
+        padding: 3px 3px;
+        background: linen;
+        margin: 2px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .up, .down{
+        flex-basis: 100%;
+    }
+    .left, .right {
+        flex: 1;
+    }
+    .down{
+        order: 4;
     }
 }

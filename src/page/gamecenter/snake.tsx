@@ -7,20 +7,37 @@ class Game {
     food = new Food()
     panel = new Panel()
     snake = new Snake()
-
+    msg = 'press the startBtn please'
+    update?: Function
     private gameState = false
     private timer: any
-    constructor() {
-
-    }
     // start the game
     init() {
         document.addEventListener('keydown', this.keydownHandler.bind(this))
         this.gameState = true
+        this.msg = ''
+        this.snake.init()
         this.loop()
     }
+    get phoneControl () {
+        const arrows = Array.from(Object.keys(Direction))
+
+        return (
+            <div className="phoneControl">
+                {arrows.map(arrow => {
+                    return <div className={arrow.slice(5).toLowerCase()}
+                    onClick={() => this.press(arrow as Direction)}>{arrow.slice(5)}</div>
+                })}
+            </div>
+        )
+    }
+    press (direction: Direction) {
+        this.snake.direction = direction
+        this.snake.move()
+        this.checkEat()
+    }
     keydownHandler(e: KeyboardEvent) {
-        if (!(Direction as any)[e.key]) return
+        if (!this.gameState || !(Direction as any)[e.key]) return
 
         this.snake.direction = e.key
         this.snake.move()
@@ -31,6 +48,7 @@ class Game {
         if (result) {
             this.food.change()
             this.panel.addScore()
+            this.update && this.update()
         }
     }
     loop () {
@@ -38,11 +56,12 @@ class Game {
         const that = this
         if (this.timer) clearInterval(this.timer)
         const time = 300 - (this.panel.level * this.panel.level * 10)
-        console.log('time', time)
         this.timer = setInterval(() => {
             // check game state 
             if (!that.snake.isLive) {
                 that.gameState = false
+                this.msg = 'game over'
+                this.update && this.update()
                 console.log('game over')
             }
 
@@ -62,7 +81,6 @@ class Food {
     private element: HTMLElement
     constructor() {
         this.element = document.getElementsByClassName('food')[0] as HTMLElement
-        console.log('this.element', this.element)
         this.init()
     }
     init() {
@@ -91,7 +109,6 @@ class Panel {
     score: number = 0
     level: number = 1
 
-    fn?: Function
     private hard: number = 10
     init() {
         this.score = 0
@@ -99,7 +116,6 @@ class Panel {
     }
     addScore() {
         this.score++
-        this.fn && this.fn()
         if (this.score % (Math.round(this.hard / 3) + 5) === 0) this.levelUp()
     }
     levelUp() {
@@ -107,19 +123,26 @@ class Panel {
     }
 }
 class Snake {
+    
+    private container: HTMLElement
     elements: HTMLCollection
     direction: string
     speed: number = 10
     isLive = true
     constructor() {
         this.direction = Direction.ArrowDown // default
-        this.elements = document.getElementsByClassName('snake')
-       
-
+        this.container = document.querySelector('.snake')!
+        this.elements = document.getElementsByClassName('snake-body')
     }
     init () {
         this.direction = Direction.ArrowDown // default
         this.isLive = true
+
+        this.container = document.querySelector('.snake')!
+        this.container.innerHTML = ''
+        const head = document.createElement('div')
+        head.className = 'snake-body'
+        this.container.appendChild(head)
     }
     get headPostion () {
         return {
@@ -168,11 +191,10 @@ class Snake {
         this.liveCheck()
     }
     grow () {
-        let bord = document.querySelector('.SnakeGame-game')!
+        const snake = document.querySelector('.snake')!
         const body = this.elements[0].cloneNode()
-        bord.appendChild(body)
+        snake.appendChild(body)
 
-        console.log('grow')
     }
     eat (food: Food): boolean {
         const result = food.X === this.headPostion.x && food.Y === this.headPostion.y
@@ -181,38 +203,46 @@ class Snake {
     }
 }
 const game = new Game()
-game.init()
 export default function SnakeGame() {
     
     const { panel, food, snake } = game
-    panel.fn = () => Use()
-    const [score, level, Use] = usePanel(panel)
+    const [msg, score, level, Use] = usePanel(game)
+    game.update = () => Use()
     function eat() {
         food.change()
         panel.addScore()
         Use()
     }
-
+    function start() {
+        game.init()
+        Use()
+    }
     return (
         <div className="SnakeGame" >
             <div className="SnakeGame-game" style={{ width: gamesize, height: gamesize }}>
-                <div className="snake"></div>
+               <div className="snake"></div>
                 <span className="food" style={{ width: size, height: size }} onClick={() => eat()}></span>
+                <span className='msg' >{msg}</span>
             </div>
             <div className="SnakeGame-bord">
+                <div >
                 <span>score: {score}</span>
-                <span onClick={() => {game.init()}}>restart</span>
                 <span>level: {level}</span>
+                </div>
+                <span className='btn' onClick={() => start()}>start</span>
+                {(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) ? game.phoneControl : null}
             </div>
         </div>
     )
 }
-function usePanel(p: Panel): [number, number, Function] {
-    let [score, useScore] = useState(p.score)
-    let [level, useLevel] = useState(p.level)
+function usePanel(g: Game): [string, number, number, Function] {
+    let [msg, useMsg] = useState(g.msg)
+    let [score, useScore] = useState(g.panel.score)
+    let [level, useLevel] = useState(g.panel.level)
     function Use() {
-        useLevel(p.level)
-        useScore(p.score)
+        useMsg(g.msg)
+        useLevel(g.panel.level)
+        useScore(g.panel.score)
     }
-    return [score, level, Use]
+    return [msg, score, level, Use]
 }

@@ -1,0 +1,81 @@
+$blue: rgb(95, 95, 226);
+$pink: rgb(241, 123, 232);
+$white:  rgb(246, 246, 247);
+$yellow: rgb(253, 246, 149);
+$green: rgb(105, 216, 102);
+$red: rgb(226, 110, 95);
+.Chess2048{
+    margin-top: 10px;
+}
+.bord{
+    font-size: 16px;
+
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: 25% 25% 25% 25%;
+
+    border: 5px solid #ebebeb;
+    border-radius: 10px;
+    .cell{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: linen;
+
+        box-sizing: border-box;
+        border: 1px solid transparent;
+        padding: 2em;
+        &[color='2'] {
+            // 2
+            background: $blue;
+        }
+        &[color='4'] {
+            // 4
+            background: $pink;
+        }
+        &[color='8'] {
+            // 8
+            background: $white;
+        }
+        &[color='16'] {
+            // 16
+            background: $yellow;
+        }
+        &[color='32'] {
+            // 32
+            background: $green;
+        }
+        &[color='64'] {
+            // 64
+            background: $red;
+        }
+        &[color='128'] {
+            // 128
+            background-image: conic-gradient($green 40%, $yellow 0deg 75%, $blue 0deg);
+        }
+        &[color='256'] {
+            // 256
+            background-image: conic-gradient($blue, $green, $pink, $red, $white, $yellow);
+        }
+        &[color='256'] {
+            // 256
+            background: $blue;
+            filter: blur(12px);
+        }
+        &[color='512'] {
+            // 512
+            background: $pink;
+            filter: blur(12px);
+        }
+        &[color='1024'] {
+            // 1024
+            background: $white;
+            filter: blur(12px);
+        }
+        &[color='2048'] {
+            // 1024
+            background: $yellow;
+            filter: blur(12px);
+        }
+    }
+}
