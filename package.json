@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "@reduxjs/toolkit": "^1.6.0",
+=======
+>>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
@@ -22,7 +25,10 @@
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+<<<<<<< HEAD
     "react-redux": "^7.2.4",
+=======
+>>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "three": "^0.126.1",

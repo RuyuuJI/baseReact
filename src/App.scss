@@ -4,7 +4,11 @@ $L_font: 30px;
 
 $transition: all 1s ease-in-out;
 
+<<<<<<< HEAD
 .App {
+=======
+.App{
+>>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
   position: absolute;
   left: 0;
   right: 0;
@@ -14,6 +18,7 @@ $transition: all 1s ease-in-out;
   flex-direction: column;
   background: #3b3a3a;
   padding: 5px 10px;
+<<<<<<< HEAD
   .App-header {
     color: aliceblue;
     background: transparent(45deg, #131313, #dedede);
@@ -22,25 +27,46 @@ $transition: all 1s ease-in-out;
     .App-header-title {
       display: flex;
 
+=======
+  .App-header{
+    color: aliceblue;
+    background: transparent(45deg, #131313, #dedede);
+    transition: $transition;
+    height: 1.5*$L_height;
+    .App-header-title{
+      display: flex;
+      
+>>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
       align-items: center;
       font-size: $L_font;
       font-weight: 600;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+<<<<<<< HEAD
     }
     .App-header-navi {
+=======
+    
+    }
+    .App-header-navi{
+>>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
       display: flex;
       overflow-y: auto;
       flex-wrap: nowrap;
       padding-bottom: 5px;
+<<<<<<< HEAD
       .navi {
+=======
+      .navi{
+>>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
         display: inline-block;
         margin-right: 10px;
         padding: 5px 10px;
         background: rgb(114, 168, 6);
         color: white;
         box-sizing: border-box;
+<<<<<<< HEAD
         transition: all 0.5s ease-in-out;
         border-radius: 5px;
         margin-top: 3px;
@@ -49,11 +75,22 @@ $transition: all 1s ease-in-out;
           background: rgb(132, 192, 72);
         }
         &:first-child {
+=======
+        transition: all .5s ease-in-out;
+        border-radius: 5px;
+        margin-top: 3px;
+        &:hover{
+          cursor: pointer;
+          background: rgb(132, 192, 72);
+        }
+        &:first-child{
+>>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
           margin-left: 0;
         }
       }
     }
   }
+<<<<<<< HEAD
   .App-content {
     flex: 1;
     display: flex;
@@ -62,10 +99,20 @@ $transition: all 1s ease-in-out;
   & > .operation {
     display: inline-flex;
     flex-direction: row-reverse;
+=======
+  .App-content{
+    flex: 1;
+    display: flex;
+  }
+  // extra
+  .hideHeaderBTN {
+    &:hover{cursor: pointer;}
+>>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
     z-index: 10;
     position: fixed;
     right: 15px;
     top: 15px;
+<<<<<<< HEAD
     .hideHeaderBTN {
       &:hover {
         cursor: pointer;
@@ -94,3 +141,27 @@ $transition: all 1s ease-in-out;
 }
 
 // zindex 10pageclick 100window
+=======
+    transition: $transition;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    border: 4px solid green;
+    border-radius: 50%;
+  }
+}
+// the state of the .hide
+.hide{
+  &.App-header{
+    height: 0;
+    transform: translateY(-1.5*$L_height);
+  }
+  &.hideHeaderBTN{
+    border-radius: 2px;
+    border: 4px solid white;
+  }
+}
+
+// zindex 10pageclick 100window
+>>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac

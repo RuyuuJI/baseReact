@@ -4,7 +4,11 @@
     "lib": [
       "dom",
       "dom.iterable",
+<<<<<<< HEAD
       "esnext"
+=======
+      "esnext",
+>>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
     ],
     "types": [
       "three"
@@ -22,11 +26,19 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+<<<<<<< HEAD
     "typeRoots": [
       "node_modules/@types"
     ]
+=======
+    "typeRoots": ["node_modules/@types"]
+>>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
   },
   "include": [
     "src"
   ]
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
