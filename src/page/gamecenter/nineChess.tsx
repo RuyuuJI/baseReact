@@ -1,13 +1,7 @@
-<<<<<<< HEAD
 import React, { useState } from 'react';
 import './nineChessStyle.scss'
 import { deepCopy } from '../../tool/fn'
 import classes from '*.module.css';
-=======
-import React from 'react';
-import './nineChessStyle.scss'
-import { deepCopy } from '../../tool/fn'
->>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
 
 enum PersonState { 'ready', 'stop', 'enable' } // the state of the player
 enum GameState { 'ready', 'ing', 'drew', 'win', 'pause' }
@@ -15,10 +9,7 @@ enum GameState { 'ready', 'ing', 'drew', 'win', 'pause' }
 
 export function NineChess() {
     let playerA: person, playerB: person
-<<<<<<< HEAD
     const [testText, setTestText] = useState('相同值不会触发渲染')
-=======
->>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
     playerA = {
         name: '测试仪',
         id: Math.random().toLocaleString(),
@@ -31,20 +22,14 @@ export function NineChess() {
         write: 'O',
         state: PersonState.ready
     }
-<<<<<<< HEAD
     console.log(111)
-=======
->>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
 
     return (
         <div className="NineChess">
             <Game players={{ A: playerA, B: playerB }}></Game>
-<<<<<<< HEAD
-            <div className="react-test" onClick={() => {setTestText(testText);}}>
+            <div className="react-test" onClick={() => { setTestText(testText); }}>
                 test setState: {testText}
             </div>
-=======
->>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
         </div>
     );
 }

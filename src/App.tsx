@@ -6,18 +6,12 @@ import {
   withRouter
 } from "react-router-dom";
 import React from 'react';
-<<<<<<< HEAD
 import { user } from './core/user'
 import { Communicate } from './modules/communicate';
 import { person } from './constants/user';
 import { ThemeSet } from './modules/themeSet';
 
 class App extends React.Component<{ history: any }, { hideHeader: boolean }> {
-=======
-
-
-class App extends React.Component<{ history: any }, {hideHeader: boolean}> {
->>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
   constructor(props: any) {
     super(props)
     this.toPage.bind(this)
@@ -37,11 +31,7 @@ class App extends React.Component<{ history: any }, {hideHeader: boolean}> {
   }
 
   render() {
-<<<<<<< HEAD
     const headerHide = this.state.hideHeader ? 'hide' : ''
-=======
-    const headerHide = this.state.hideHeader ? 'hide':''
->>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
     return (
       <div className="App">
         <header className={`App-header ${headerHide}`}>
@@ -69,7 +59,6 @@ class App extends React.Component<{ history: any }, {hideHeader: boolean}> {
             ))}
           </Switch>
         </div>
-<<<<<<< HEAD
 
         {/* menu */}
         <div className="operation">
@@ -78,9 +67,6 @@ class App extends React.Component<{ history: any }, {hideHeader: boolean}> {
         </div>
         {/* extra */}
         <Communicate user={user} />
-=======
-        <span className={`hideHeaderBTN ${headerHide}`} onClick={this.changeHeader}></span>
->>>>>>> bc7c0047538bd6e1ab4485f99c4613f2afe5dcac
       </div>
     );
   }
