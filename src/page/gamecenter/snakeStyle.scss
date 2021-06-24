@@ -1,0 +1,99 @@
+$bgColor: rgb(90, 134, 105);
+
+$size: 10px;
+.SnakeGame{
+    
+    margin-top: 10px;
+    display: inline-flex;
+    flex-direction: column;
+    background: $bgColor;
+    border: 5px solid rgb(31, 30, 30);
+    border-radius: 10px;
+    .SnakeGame-game{
+        display: block;
+        position: relative;
+        // width: 500px;
+        // height: 500px;
+        border: 2px solid #1b1b1b;
+        margin: 10px;
+    }
+    .SnakeGame-bord{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        flex-flow: row nowrap;
+        padding-top: 10px;
+        padding-bottom: 20px;
+    }
+}
+.snake-body{
+    position: absolute;
+    width: $size;
+    height: $size;
+    background: lightyellow;
+    border-radius: 3px;
+    border: 1px solid transparent;
+}
+.food{
+    position: absolute;
+    display: block;
+    // width: $size;
+    // height: $size;
+    border: 1px solid transparent;
+
+    transform: rotate(45deg);
+    background-repeat: no-repeat;
+    background-image: linear-gradient(45deg, transparent, black),
+    linear-gradient(-135deg, transparent, red),
+    linear-gradient(45deg, transparent, white),
+    linear-gradient(-45deg, transparent, blue);
+    background-position: 0 0, ($size * .5) 0, 0 ($size * .5), ($size * .5) ($size * .5);
+    background-size: $size/2 $size/2, $size/2 $size/2,$size/2 $size/2,$size/2 $size/2;
+    animation: rotateI 3s infinite;
+    @keyframes rotateI {
+        from {
+            transform: rotate(0);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}
+.msg {
+    position: absolute;
+    font-size: 20px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    word-break: keep-all;
+    white-space: nowrap;
+}
+.btn{
+    padding: 10px 20px;
+    background: linen;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.phoneControl{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    &>div {
+        padding: 3px 3px;
+        background: linen;
+        margin: 2px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .up, .down{
+        flex-basis: 100%;
+    }
+    .left, .right {
+        flex: 1;
+    }
+    .down{
+        order: 4;
+    }
+}
