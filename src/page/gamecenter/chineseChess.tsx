@@ -44,7 +44,6 @@ class Game {
         // splite the players random
         const [redPlayers, blackplayers] = arrayRandomSplite(this.players, 2)
         this.characters = { red: { currentIndex: 0, list: redPlayers }, black: { currentIndex: 0, list: blackplayers } }
-        this.cur
 
         // init bord
         // this.bord.init()
