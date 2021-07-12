@@ -4,7 +4,7 @@ const NineChess = React.lazy(() => import('../page/gamecenter/nineChess'))
 const FiveChess = React.lazy(() => import('../page/gamecenter/fiveChess'))
 const Snake = React.lazy(() => import('../page/gamecenter/snake'))
 const Chess2048 = React.lazy(() => import('../page/gamecenter/chess2048'))
-const ChineseChess = React.lazy(() => import('../page/gamecenter/chineseChess'))
+const ChineseChess = React.lazy(() => import('../page/gamecenter/chineseChess/chineseChess'))
 const base = '/gamecenter'
 export const routeList = [
     {
