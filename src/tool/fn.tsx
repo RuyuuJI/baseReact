@@ -16,6 +16,10 @@ export function deepCopy(obj1: any) {
   }
   return obj2;
 }
+// common not null
+export function isNull(x: any) {
+  return x == null || x == undefined
+}
 
 //  range rand
 function getRandom(start: number, end: number, fixed = 0) {

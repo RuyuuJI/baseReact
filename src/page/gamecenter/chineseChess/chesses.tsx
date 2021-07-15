@@ -1,41 +1,90 @@
+import { ElementClassEnum } from "./chineseChess"
+
 export enum CharacterEnum { red = 'red', black = 'black' }
 export enum ChessTypeEnum { boss, soldier, staff, elephant, rider, cannon, car }
 export enum ChessStatusEnum { up, down }
 export interface position { x: number, y: number }
 
 class ChessType {
+    public option: { defaultPosition: position, character: CharacterEnum, [key: string]: any } // extra option
+    public text: string
+
     protected rule: Function
     protected type: ChessTypeEnum
     protected price: number = 0
-    constructor(type: ChessTypeEnum) {
+    constructor(type: ChessTypeEnum, { defaultPosition = { x: 0, y: 0 }, character = CharacterEnum.red }) {
         this.type = type
+        this.text = ''
         this.rule = () => { }
-        this.init()
+        this.option = {
+            defaultPosition,
+            character
+        }
     }
     // init rule and price
-    private init() {
-        switch (this.type) {
+    static init(chess: ChessType) {
+        const character = chess.option.character
+        let textmap = {
+            [CharacterEnum.red]: '无',
+            [CharacterEnum.black]: '有'
+        }
+        switch (chess.type) {
             case ChessTypeEnum.boss:
-                this.rule = () => { }
+                chess.rule = () => { }
+                textmap = {
+                    [CharacterEnum.red]: '帅',
+                    [CharacterEnum.black]: '将'
+                }
+                chess.text = textmap[character]
                 break;
             case ChessTypeEnum.soldier:
-
+                chess.rule = () => { }
+                textmap = {
+                    [CharacterEnum.red]: '兵',
+                    [CharacterEnum.black]: '卆'
+                }
+                chess.text = textmap[character]
                 break;
             case ChessTypeEnum.staff:
-
+                chess.rule = () => { }
+                textmap = {
+                    [CharacterEnum.red]: '士',
+                    [CharacterEnum.black]: '侍'
+                }
+                chess.text = textmap[character]
                 break;
             case ChessTypeEnum.elephant:
-
+                chess.rule = () => { }
+                textmap = {
+                    [CharacterEnum.red]: '相',
+                    [CharacterEnum.black]: '🐘'
+                }
+                chess.text = textmap[character]
                 break;
             case ChessTypeEnum.rider:
-
+                chess.rule = () => { }
+                textmap = {
+                    [CharacterEnum.red]: '🐎',
+                    [CharacterEnum.black]: '马'
+                }
+                chess.text = textmap[character]
                 break;
 
             case ChessTypeEnum.cannon:
-
+                chess.rule = () => { }
+                textmap = {
+                    [CharacterEnum.red]: '仗',
+                    [CharacterEnum.black]: '炮'
+                }
+                chess.text = textmap[character]
                 break;
             case ChessTypeEnum.car:
-
+                chess.rule = () => { }
+                textmap = {
+                    [CharacterEnum.red]: '🚗',
+                    [CharacterEnum.black]: '车'
+                }
+                chess.text = textmap[character]
                 break;
 
             default:
@@ -45,22 +94,29 @@ class ChessType {
 }
 
 export class Chess extends ChessType {
-    protected option: { defaultPosition: position, character: CharacterEnum, [key: string]: any } // extra option
+
     protected status: ChessStatusEnum
     // 
     protected availablePositions: position[]
+    //
     constructor(type: ChessTypeEnum, { defaultPosition = { x: 0, y: 0 }, character = CharacterEnum.red }) {
-        super(type)
-        this.status = ChessStatusEnum.down
+        super(type, { defaultPosition, character })
+        this.status = ChessStatusEnum.down // init status
         this.availablePositions = []
-        this.option = {
-            defaultPosition,
-            character
-        }
+
+        this.init()
+    }
+    private init() {
+        ChessType.init(this)
+    }
+    static Element(chess: Chess) {
+        return (
+            <div className={`${ElementClassEnum.Chess} ${chess.option.index}`} onClick={e => e.preventDefault()}>{chess.text}</div>
+        )
     }
 }
 
-const chessList = [
+export const chessList = [
     // red
     new Chess(ChessTypeEnum.car, { defaultPosition: { x: 0, y: 0 } }),
     new Chess(ChessTypeEnum.rider, { defaultPosition: { x: 1, y: 0 } }),

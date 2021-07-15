@@ -1,24 +1,19 @@
-import React from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Type } from 'typescript';
 import { person, PersonState } from '../../../constants/user';
-import { arrayRandomSplite } from '../../../tool/fn';
-import { CharacterEnum, Chess, position } from './chesses';
+import { arrayRandomSplite, deepCopy, isNull } from '../../../tool/fn';
+import { CharacterEnum, Chess, chessList, position } from './chesses';
 import './chineseChess.scss'
+export enum ElementClassEnum { Chess = 'Chess', Cell = 'Cell', Bord = 'Bord' }
+
 enum GameState { idle, ready, ing, win, aborted }
-function ChineseChess() {
-    const person1: person = { name: '1号选手', id: '123', write: 'one' }
-    const person2: person = { name: '2号选手', id: '123', write: 'two' }
-    const game = new Game([person1, person2])
-    return (
-        <div className="ChineseChess"></div>
-    )
-}
 
 
 // cell
 class Cell {
+    public content: Chess | null = null
+
     protected position: position
-    protected content: Chess | null = null
     protected option: { [key: string]: any } = {} // extra option
     // element
     // protected component:
@@ -31,14 +26,26 @@ class Cell {
     protected destroyChess() {
         this.content = null
     }
+    static Element(cell?: Cell) {
+        const x = cell?.position?.x
+        const y = cell?.position?.y
+        return (
+            <div className={`${ElementClassEnum.Cell} ${x + ' ' + y}`} key={x + '-' + y}>
+                {
+                    cell?.content
+                        ? Chess.Element(cell.content)
+                        : null}
+            </div >
+        )
+    }
 }
 
 
-const cellrow = new Array<Cell>(9)
+const cellrowCreate = () => new Array<Cell>(9)
 //  bord
 class Bord {
-    protected current: { state?: GameState, player?: person, target?: position, pre?: position } // current operation
-    protected cellList = new Array<typeof cellrow>(10)
+    protected current: { state?: GameState, player?: player, target?: position, pre?: position } // current operation
+    public cellList = new Array<ReturnType<typeof cellrowCreate>>(10)
     protected chessList: Array<Chess>
     // void
     protected next: Function
@@ -46,46 +53,127 @@ class Bord {
     constructor(next: Function) {
         this.current = {}
         this.next = next
+        for (let y = 0; y < 10; y++) {
+            this.cellList[y] = [...cellrowCreate()]
+        }
         this.chessList = []
+        this.init()
+    }
+    public changeCurrent(current: { state?: GameState, player?: player, target?: position, pre?: position }) {
+        this.current = current
     }
     //init, setup cell and chess
     init() {
         // init all cells
-        this.cellList.forEach((row, x) => row.forEach((c, y) => {
-            c = new Cell({ x, y })
-        }))
-        // install chess
+        for (let y = 0; y < this.cellList.length; y++) {
+            for (let x = 0; x < this.cellList[y].length; x++) {
+                this.cellList[y][x] = new Cell({ x, y })
+            }
+        }
 
+        // install chess
+        this.chessList = deepCopy(chessList)
+        // set chess position
+        this.chessList.forEach((chess, i) => {
+            chess.option.index = i
+            const { x, y } = chess.option.defaultPosition
+            this.cellList[y][x].content = chess
+        })
     }
     // bord bclick
-    onClickHandler(position: position) {
+    onClickHandler(e: React.MouseEvent) {
+        console.log(e)
         // dispatch action, cahnge cell
+        const element = e.target as HTMLDivElement
+        const classNames = element?.className.split(' ')
+        const type = classNames?.[0]
+        const player = this.current?.player
+        // per-condition
+        console.log(player)
+        if (!player) return false
+        debugger
 
-        // start to next
-        this.next()
+        let position: position
+        // 
+        if (type === ElementClassEnum.Chess) {
+            const cell = element.parentElement
+            const cellClassNames = cell?.className.split(' ')
+            if (!cellClassNames || cellClassNames?.length < 3) return false
+            const x = Number(cellClassNames[1])
+            const y = Number(cellClassNames[2])
+            position = { x, y }
+        } else if (type === ElementClassEnum.Cell) {
+            const x = Number(classNames[1])
+            const y = Number(classNames[2])
+            position = { x, y }
 
+
+        } else {
+            // todo more actions
+            return false
+        }
+        //already picked one chess
+        if (this.current?.pre?.x && this.current?.pre?.y) {
+            const preposition = this.current.pre
+            const tempChess = this.cellList[preposition.y][preposition.x].content
+            this.cellList[position.y][position.x].content = tempChess
+
+            this.cellList[preposition.y][preposition.x].content = null
+
+            // start to next
+            this.next()
+        } else if (isNull(this.current?.pre?.x) || isNull(this.current?.pre?.y)) {
+            this.current.pre = { ...position }
+        }
+
+        //eate chess
+        console.dir(element)
+
+
+
+    }
+    // 
+    static ElementFunction() {
+        return (bord: Bord) => {
+            return (
+                <div className={ElementClassEnum.Bord} onClick={e => bord.onClickHandler(e)}>
+                    {
+                        bord.cellList.map((cellrow, y) => <div key={'cellrow' + y} className="cellrow">
+                            {cellrow.map((cell, x) => <Fragment key={'cell' + x}>
+                                {Cell.Element(cell)}</Fragment>)}
+                        </div>)
+                    }
+                </div>
+            )
+        }
     }
 
 }
 
 //  game
-type character = { currentIndex: number, list: number[] }
+type team = { currentIndex: number, list: number[] }
+type player = { character?: CharacterEnum } & person
 class Game {
-    protected players: person[]
+    public bord: Bord
+    protected count = 0 // count steps
+
+    protected players: player[]
     protected state: GameState = GameState.idle
-    protected bord: Bord
 
-    protected current: { character: CharacterEnum, player?: person }
-    protected characters: { red: character, black: character }
+    protected current: { character: CharacterEnum, player?: player }
+    protected characters: { red: team, black: team }
 
-    constructor(players: person[]) {
-        this.players = [...players]
+    constructor(persons: person[]) {
+
+        this.players = [...persons]
+
         this.bord = new Bord(this.next)
 
         const defaultCharacter = { currentIndex: 0, list: [] }
         this.characters = { red: defaultCharacter, black: defaultCharacter }
 
         this.current = { character: CharacterEnum.red }
+        this.changeCurrentPlayer()
     }
     //  functions
     // init 
@@ -95,10 +183,16 @@ class Game {
 
         // splite the players random
         const [redPlayers, blackplayers] = arrayRandomSplite(this.players, 2)
+        redPlayers.forEach(redplayerIndex => {
+            this.players[redplayerIndex].character = CharacterEnum.red
+        })
+        blackplayers.forEach(blackplayerIndex => {
+            this.players[blackplayerIndex].character = CharacterEnum.black
+        })
         this.characters = { [CharacterEnum.red]: { currentIndex: 0, list: redPlayers }, [CharacterEnum.black]: { currentIndex: 0, list: blackplayers } }
 
         // init bord
-        // this.bord.init()
+        this.bord.init()
 
         // change current player
         this.changeCurrentPlayer()
@@ -118,9 +212,11 @@ class Game {
 
         // set the current player
         this.current = { character, player: this.players[indexList[index]] }
+        this.bord.changeCurrent({ state: this.state, player: this.current.player })
     }
     // next after every change
     protected next(state: GameState) {
+        console.log('next', ++this.count)
         this.state = state
         switch (this.state) {
             case GameState.idle:
@@ -145,6 +241,36 @@ class Game {
     }
 
 
+}
+// =======================
+const person1: person = { name: '1号选手', id: '123', write: 'one' }
+const person2: person = { name: '2号选手', id: '123', write: 'two' }
+const game = new Game([person1, person2])
+function ChineseChess() {
+
+
+    const [count, setcount] = useState(1);
+    const [currentbord, setCurrentbord] = useState(game.bord);
+
+
+    // variable
+    let BordElement: JSX.Element = Bord.ElementFunction()(currentbord)
+
+    // logic
+    const clickStart = () => {
+        console.log('click start', count)
+        setcount(count => count + 1)
+        // setCurrentbord(game.bord)
+    }
+
+    return (
+        <div className="ChineseChess">
+            <div className="operation">
+                <span className='start' onClick={clickStart}>start</span>
+            </div>
+            {BordElement}
+        </div>
+    )
 }
 
 export default ChineseChess
