@@ -18,7 +18,7 @@ export function deepCopy(obj1: any) {
 }
 // common not null
 export function isNull(x: any) {
-  return x == null || x == undefined
+  return x === null || x === undefined
 }
 
 //  range rand

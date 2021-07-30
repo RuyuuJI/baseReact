@@ -12,7 +12,7 @@
     justify-content: space-around;
     // width: 40vmax;
     // height: 50vmax;
-    background: rgb(167, 153, 107);
+    background: rgb(158, 152, 132);
     .cellrow {
         flex: 1;
         display: flex;
@@ -25,15 +25,22 @@
             height: 5vmax;
             display: inline-flex;
             border: 2px solid gray;
-
+            &.current {
+                border: 2px solid white;
+            }
             .Chess {
                 display: inline-flex;
                 justify-content: center;
                 align-items: center;
                 flex: 1;
                 line-height: 0;
+                font-size: 25px;
+                font-weight: bold;
                 border-radius: 50%;
-                background: goldenrod;
+                background: rgb(218, 188, 114);
+                &.red {
+                    color: red;
+                }
             }
         }
     }
