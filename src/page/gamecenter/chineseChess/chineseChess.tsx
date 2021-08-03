@@ -7,7 +7,14 @@ import './chineseChess.scss'
 export enum ElementClassEnum { Chess = 'Chess', Cell = 'Cell', Bord = 'Bord' }
 enum CellStatusEnum { current, placable, default }
 enum GameState { idle, ready, change, ing, win, aborted }
+enum GameModel { single, team } // two models
 
+type Env = {
+    gameModel: GameModel
+}
+const env: Env = {
+    gameModel: GameModel.team
+}
 
 // cell
 class Cell {
@@ -127,6 +134,7 @@ export class Bord {
     }
     // change chess position
     changeChessPosition(position: position) {
+
         //already picked one chess
         if (!isNull(this.current?.pre?.x) && !isNull(this.current?.pre?.y)) {
 
@@ -145,7 +153,10 @@ export class Bord {
             // find all the available positions
             const availablePositions = tempChess.rule(this, preposition)
             console.log('availablePositions', availablePositions)
-            if (!availablePositions.length) return false // no place can set chess
+            if (!availablePositions.length) {
+                this.next(GameState.ing)
+                return false // no place can set chess
+            }
             let flag = false // default is no place to set chess
             for (let i = 0; i < availablePositions.length; i++) {
                 if (position.x === availablePositions[i].x && position.y === availablePositions[i].y) {
@@ -153,28 +164,28 @@ export class Bord {
                     break
                 }
             }
-            if (!flag) {
+            if (flag) {
+                // place chess
+                this.cellList[position.y][position.x].content = tempChess
+                this.cellList[preposition.y][preposition.x].content = null
+            } else {
                 console.log('// this place is not available')
-                return false // this place is not available
             }
-
-            // place chess
-            this.cellList[position.y][position.x].content = tempChess
-            this.cellList[preposition.y][preposition.x].content = null
             // clear current
             this.current.pre = undefined
             this.cellList[position.y][position.x].content?.toggleStatus()
             preCell.changeStatus(CellStatusEnum.default)
             // start to next
-            this.next(GameState.change)
+            flag ? this.next(GameState.change) : this.next(GameState.ing)
         } else if (isNull(this.current?.pre?.x) || isNull(this.current?.pre?.y)) {
-
+            // 
             const cell = this.cellList[position.y][position.x]
             const tempChess = cell.content
-            console.log(tempChess, "pick up current chess", position,)
+            console.log(tempChess, "pick up current chess", position)
             // pick upchess
             if (!tempChess) return false
-            tempChess?.toggleStatus()
+            if (!this.checkCurrent(tempChess)) return false
+            tempChess.toggleStatus()
             cell.changeStatus(CellStatusEnum.current)
             // set current as pre
             this.current.pre = { ...position }
@@ -184,6 +195,26 @@ export class Bord {
         }
     }
 
+    // check current operation is valid 
+    checkCurrent(chess: Chess): Boolean {
+        let flag = false
+        console.log('checkCurrent', chess, this.current.player)
+        // only current player can set 
+        // I am current player,and my team is current team
+        if (env.gameModel === GameModel.single) {
+            if (this.current.player && (this.current.player?.character === chess.option.character)) {
+                flag = true
+            }
+        } else if (env.gameModel === GameModel.team) {
+            // TODO: 
+            if (this.current.player
+                && (this.current.player?.character === chess.option.character)
+                && this.current.player === this.current.player) {
+                flag = true
+            }
+        }
+        return flag
+    }
     //  render element
     static ElementFunction() {
         const refn = function (bord: Bord) {
@@ -238,7 +269,7 @@ class Game {
 
         // splite the players random
         const [redPlayers, blackplayers] = arrayRandomSplite(this.players, 2)
-        console.log(redPlayers, this.players)
+        console.log(this.players, redPlayers, blackplayers)
         redPlayers.forEach(redplayerIndex => {
             this.players[redplayerIndex].character = CharacterEnum.red
         })
@@ -246,7 +277,6 @@ class Game {
             this.players[blackplayerIndex].character = CharacterEnum.black
         })
         this.characters = { [CharacterEnum.red]: { currentIndex: 0, list: redPlayers }, [CharacterEnum.black]: { currentIndex: 0, list: blackplayers } }
-
         // init bord
         this.bord.init()
 
@@ -264,10 +294,10 @@ class Game {
 
         // get the next player index
         const indexList = this.characters[character].list
-        index = (index + 1) > indexList.length ? 0 : index
+        index = index >= indexList.length ? 0 : index
         // set the current player
         this.current = { character, player: this.players[indexList[index]] }
-        console.log(' this.current', this.current)
+        console.log(' this.current', this.current, index, indexList)
 
         this.bord.changeCurrent({ state: this.state, player: this.current.player })
     }

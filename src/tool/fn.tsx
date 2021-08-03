@@ -35,7 +35,7 @@ export function arrayRandomSplite(arr: Array<any> = [], outnum: number = 2): Arr
   let out: Array<any> = []
   let evenNum = Math.floor(arr.length / outnum)
   for (let i = 0; i < outnum; i++) {
-    if (i === outnum - 1) {
+    if (i !== outnum - 1) {
       for (let j = 0; j < evenNum; j++) {
         let randomIndex = Math.round(Math.random() * (indexs.length - 1))
         out.push([...indexs.splice(randomIndex, 1)])
