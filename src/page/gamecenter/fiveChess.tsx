@@ -1,6 +1,4 @@
-
-
-import React, { ReactInstance, useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './fiveChess.scss'
 import { deepCopy } from '../../tool/fn'
 import { person, PersonState } from '../../constants/user';
@@ -10,7 +8,7 @@ enum GameState { 'idle', 'ready', 'ing', 'drew', 'win', 'pause' }
 
 export function NineChess() {
     let playerA: person, playerB: person
- 
+
     playerA = {
         name: '测试仪',
         id: Math.random().toLocaleString(),
@@ -44,8 +42,8 @@ function Cell(props: { placePiece: Function, c: cell }) {
         console.log('cell handleClick', props.c)
         if (!props.c.value) {
             // empty and successful to continue
-            props.c.value = 
-            props.placePiece(props.c.position)
+            props.c.value =
+                props.placePiece(props.c.position)
         } else {
             // is not useful
             return
@@ -60,8 +58,8 @@ function Cell(props: { placePiece: Function, c: cell }) {
     )
 }
 
-function Border (props: { next: Function, gameState: GameState, currentPlayer: person}) {
-    type record = {currentPlayer: person, cellList: cell[][]}
+function Border(props: { next: Function, gameState: GameState, currentPlayer: person }) {
+    type record = { currentPlayer: person, cellList: cell[][] }
     const [cellList, setCellList] = useState<cell[][]>([])
     const [records, setRecords] = useState<record[]>([])
     const BordSize = 50
@@ -88,16 +86,16 @@ function Border (props: { next: Function, gameState: GameState, currentPlayer: p
         },
         [],
     )
-      // game state handler
-      useEffect(() => {
+    // game state handler
+    useEffect(() => {
         switch (props.gameState) {
             case GameState.drew:
-            case GameState.ready: 
-            init();break;
+            case GameState.ready:
+                init(); break;
             default: break
         }
-    }, [props.gameState])
-    const handlePlacePiece =  (position: number) => {
+    }, [init, props.gameState])
+    const handlePlacePiece = (position: number) => {
         if (props.gameState !== GameState.ing && props.gameState !== GameState.ready) return
         let y = position % (BordSize / 2)
         let x = Math.floor(position / (BordSize / 2))
@@ -117,71 +115,71 @@ function Border (props: { next: Function, gameState: GameState, currentPlayer: p
         } else {
             props.next(GameState.ing)
         }
-        
-    }
-    const checkPosition = useCallback(( cellList:  cell[][], position: {x: number, y: number}) => {
-            let { x, y } = position
-            const columCheck = () => {
-                let number = 0
-                for (let i =  Math.max(y - 4, 0); i >= 0 && i <= Math.min(BordSize, y + 4); i++){
-                    if (cellList[x]?.[i]?.value === cellList[x][y].value) {
-                        number += 1;
-                        if (number === 5) {
-                            console.log('columCheck')
-                            return true
-                        }
-                    } else {
-                        number = 0
-                    }
-                }
-                return false
-            }
-            const rowCheck = () => {
-                let number = 0
-                for (let i =  Math.max(x - 4, 0); i >= 0 && i <= Math.min(BordSize, x + 4); i++){
-                    if (cellList?.[i][y]?.value === cellList[x][y].value) {
-                        number += 1;
-                        if (number === 5)  {
-                            console.log('rowchecked')
-                            return true
-                        }
-                    } else {
-                        number = 0
-                    }
-                }
-                return false
-            }
-            const xyCheck = () => {
-                let number = 0
-                for (let i =  x - 4, j = y - 4; i <= Math.min(BordSize, y + 4) && j <= Math.min(BordSize, y + 4); i++, j++){
-                    if (cellList?.[i]?.[j]?.value === cellList[x][y].value) {
-                        number += 1;
-                        if (number === 5) {
-                            console.log('xyCheck 1')
-                            return true
-                        }
-                    } else {
-                        number = 0
-                    }
-                }
-                for (let i =  x - 4, j = y + 4; i <= Math.min(BordSize, y + 4) && j >= Math.max(0, y - 4); i++, j--){
-                    if (cellList?.[i]?.[j]?.value === cellList[x][y].value) {
-                        number += 1;
-                        if (number === 5) {
-                            console.log('xyCheck 2')
-                            return true
-                        }
-                    } else {
-                        number = 0
-                    }
-                }
-                return false
-            }
 
-            return columCheck() || rowCheck() || xyCheck()
+    }
+    const checkPosition = useCallback((cellList: cell[][], position: { x: number, y: number }) => {
+        let { x, y } = position
+        const columCheck = () => {
+            let number = 0
+            for (let i = Math.max(y - 4, 0); i >= 0 && i <= Math.min(BordSize, y + 4); i++) {
+                if (cellList[x]?.[i]?.value === cellList[x][y].value) {
+                    number += 1;
+                    if (number === 5) {
+                        console.log('columCheck')
+                        return true
+                    }
+                } else {
+                    number = 0
+                }
+            }
+            return false
+        }
+        const rowCheck = () => {
+            let number = 0
+            for (let i = Math.max(x - 4, 0); i >= 0 && i <= Math.min(BordSize, x + 4); i++) {
+                if (cellList?.[i][y]?.value === cellList[x][y].value) {
+                    number += 1;
+                    if (number === 5) {
+                        console.log('rowchecked')
+                        return true
+                    }
+                } else {
+                    number = 0
+                }
+            }
+            return false
+        }
+        const xyCheck = () => {
+            let number = 0
+            for (let i = x - 4, j = y - 4; i <= Math.min(BordSize, y + 4) && j <= Math.min(BordSize, y + 4); i++, j++) {
+                if (cellList?.[i]?.[j]?.value === cellList[x][y].value) {
+                    number += 1;
+                    if (number === 5) {
+                        console.log('xyCheck 1')
+                        return true
+                    }
+                } else {
+                    number = 0
+                }
+            }
+            for (let i = x - 4, j = y + 4; i <= Math.min(BordSize, y + 4) && j >= Math.max(0, y - 4); i++, j--) {
+                if (cellList?.[i]?.[j]?.value === cellList[x][y].value) {
+                    number += 1;
+                    if (number === 5) {
+                        console.log('xyCheck 2')
+                        return true
+                    }
+                } else {
+                    number = 0
+                }
+            }
+            return false
+        }
+
+        return columCheck() || rowCheck() || xyCheck()
     }, [])
-    
-    
+
+
     return (
         <div className="flexbox" >
             <div className="bord" >
@@ -207,7 +205,7 @@ function Border (props: { next: Function, gameState: GameState, currentPlayer: p
 }
 
 
-function Game (props: { players: { A: person, B: person } },) {
+function Game(props: { players: { A: person, B: person } },) {
     const { players } = props
     const [msg, setMsg] = useState('')
     const [gameState, setGameState] = useState(GameState.idle)
@@ -222,7 +220,7 @@ function Game (props: { players: { A: person, B: person } },) {
                 break;
             case GameState.ready:
                 msg = `当前操作：${currentPlayer.name}`
-            break;
+                break;
             case GameState.ing:
                 msg = `当前操作：${currentPlayer.name}`
                 break;
@@ -247,7 +245,7 @@ function Game (props: { players: { A: person, B: person } },) {
         }
     }
     // 
-    const notice= (params: { msg: string; from: person | string; to: person | string }) => {
+    const notice = (params: { msg: string; from: person | string; to: person | string }) => {
         const { msg, from, to } = params
         console.log('msg', msg, from, to);
         setMsg(msg)
@@ -261,19 +259,19 @@ function Game (props: { players: { A: person, B: person } },) {
     //
     const kill = () => {
         setGameState(GameState.drew)
-    } 
+    }
     //
     return (
         <>
-        <div className="operation" >
-            <span className="operation-btn" onClick={start}>start</span>
-            <span className="operation-btn" onClick={kill}>kill</span>
-            <span className="operation-show" >
-                {msg}
-            </span>
-        </div>
-        <Border gameState={gameState} currentPlayer={currentPlayer}
-            next={next} />
-    </> 
+            <div className="operation" >
+                <span className="operation-btn" onClick={start}>start</span>
+                <span className="operation-btn" onClick={kill}>kill</span>
+                <span className="operation-show" >
+                    {msg}
+                </span>
+            </div>
+            <Border gameState={gameState} currentPlayer={currentPlayer}
+                next={next} />
+        </>
     )
 }

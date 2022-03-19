@@ -1,10 +1,9 @@
 import { useMemo, useState } from "react"
-import { person } from "../constants/user"
 import { Client } from "../websocket/client"
 import { User } from '../core/user'
 
-export function Communicate (props: { user: User}) {
-    const { user }  = props
+export function Communicate(props: { user: User }) {
+    const { user } = props
     const [state, setState] = useState(false)
     user.onReady('initClient', () => {
         setState(true)
@@ -16,7 +15,8 @@ export function Communicate (props: { user: User}) {
         } else {
             return false
         }
-    }, [user.person, state])
+    }, [user.person])
+    console.log(state, client)
     return (
         <div className="communication"></div>
     )

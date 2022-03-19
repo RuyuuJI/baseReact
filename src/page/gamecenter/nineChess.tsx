@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './nineChessStyle.scss'
 import { deepCopy } from '../../tool/fn'
-import classes from '*.module.css';
 
 enum PersonState { 'ready', 'stop', 'enable' } // the state of the player
 enum GameState { 'ready', 'ing', 'drew', 'win', 'pause' }

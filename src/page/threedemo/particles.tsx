@@ -41,7 +41,7 @@ let scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(75, device.ratio, 0.1, 1000) // angle, ratio, near, far
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 const controler = new OrbitControls(camera, renderer.domElement)
-const clock = new THREE.Clock();
+// const clock = new THREE.Clock();
 let gui: dat.GUI | null = null
 let animateLoop: loop | null
 function init() {
@@ -163,9 +163,9 @@ class Particles {
         let tempScale = new Float32Array(scales)
         this.strategy.init(this.num, tempPositions, tempScale)
         // star the change
-        staggerArray(positions as ArrayLike<number>, tempPositions, {array: tempPositions, duration: 3})
-        staggerArray(scales as ArrayLike<number>, tempScale, {array: tempPositions, duration: 3})
-     
+        staggerArray(positions as ArrayLike<number>, tempPositions, { array: tempPositions, duration: 3 })
+        staggerArray(scales as ArrayLike<number>, tempScale, { array: tempPositions, duration: 3 })
+
         gsap.to((particles.material as any).uniforms.color.value, { r: Math.random(), g: Math.random(), b: Math.random(), duration: 3 })
         setTimeout(() => {
             this.state = ParticleState.started
@@ -178,7 +178,7 @@ class Particles {
 let count = 0
 const defaultStrategy = {
     name: 'default',
-    config: {x: 33, y: 60, z: 40},
+    config: { x: 33, y: 60, z: 40 },
     init: (num: number, positions: Float32Array | [], scales: Float32Array | []) => {
         let size = defaultStrategy.config
         let numZ = 0 // the count of per laeryZ
@@ -208,7 +208,7 @@ const defaultStrategy = {
 }
 const cubeStrategy: Strategy = {
     name: 'cube',
-    config: {y: 40, x: 40, z: 50},
+    config: { y: 40, x: 40, z: 50 },
     init: (num: number, positions: Float32Array | [], scales: Float32Array | []) => {
 
         let numX = cubeStrategy.config.x
@@ -244,11 +244,11 @@ const sphereStrategy: Strategy = {
             positions[i + 1] = r * Math.cos(deltaZ) * Math.sin(deltaX) // y
             positions[i + 2] = r * Math.sin(deltaZ) // z
             deltaX += Math.PI * (Math.pow(1 / 2, r))
-            deltaZ -= Math.PI * (Math.pow(1 / 2, r)) 
+            deltaZ -= Math.PI * (Math.pow(1 / 2, r))
             if (deltaX >= Math.PI * 2) {
                 deltaX = 0
                 if (deltaZ < -Math.PI / 2) {
-                    deltaZ = Math.PI /2
+                    deltaZ = Math.PI / 2
                     r += 2
                 }
             }
@@ -257,9 +257,9 @@ const sphereStrategy: Strategy = {
 }
 class Strategy {
     name: string
-    config: {[key: string]: any}
+    config: { [key: string]: any }
     init: Function
-    constructor(name: string, config: {[key: string]: any}, init: Function) {
+    constructor(name: string, config: { [key: string]: any }, init: Function) {
         this.name = name
         this.config = config
         this.init = init
@@ -281,8 +281,8 @@ function staggerArray(start: ArrayLike<number | string>, end: ArrayLike<number |
 
     for (let i = 0; i < start.length; i++) {
         (proxy as any[])[i] = start[i];
-        let v: {[key: number]: any, [name: string]: any} = {
-            onUpdate: () => {}, roundProps: ''
+        let v: { [key: number]: any, [name: string]: any } = {
+            onUpdate: () => { }, roundProps: ''
         }
 
         v[i] = end[i];

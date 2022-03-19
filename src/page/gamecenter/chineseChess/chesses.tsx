@@ -1,4 +1,3 @@
-import { isNull } from "../../../tool/fn"
 import { Bord, ElementClassEnum } from "./chineseChess"
 
 export enum CharacterEnum { red = 'red', black = 'black' }

@@ -81,7 +81,7 @@ const camera = {
     }
 }
 const cube = new Cube()
-const fbo = createFBO(gl, device.width, device.height)
+// const fbo = createFBO(gl, device.width, device.height)
 const textureFBO = createDynamicTexture(gl, device.width, device.height)
 const buffers = initBuffers(gl, cube)
 console.log('programInfo', programInfo)
@@ -209,34 +209,34 @@ function createDynamicTexture(gl: WebGLRenderingContext, width: number, height: 
     gl.bindTexture(gl.TEXTURE_2D, null);
     return texture
 }
-function createFBO(gl: WebGLRenderingContext, width: number, height: number) {
-    const depthBuffer = gl.createRenderbuffer() as WebGLRenderbuffer
-    const frameBuffer = gl.createFramebuffer() as WebGLFramebuffer
-    gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer)
-    gl.bindRenderbuffer(gl.RENDERBUFFER, depthBuffer)
-    gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, width, height)
-    gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, depthBuffer)
+// function createFBO(gl: WebGLRenderingContext, width: number, height: number) {
+//     const depthBuffer = gl.createRenderbuffer() as WebGLRenderbuffer
+//     const frameBuffer = gl.createFramebuffer() as WebGLFramebuffer
+//     gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer)
+//     gl.bindRenderbuffer(gl.RENDERBUFFER, depthBuffer)
+//     gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, width, height)
+//     gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, depthBuffer)
 
-    const textureFBO = createDynamicTexture(gl, device.width, device.height)
-    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, textureFBO, 0)
-    gl.bindTexture(gl.TEXTURE_2D, textureFBO)
+//     const textureFBO = createDynamicTexture(gl, device.width, device.height)
+//     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, textureFBO, 0)
+//     gl.bindTexture(gl.TEXTURE_2D, textureFBO)
 
-    var e = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
-    if (gl.FRAMEBUFFER_COMPLETE !== e) {
-        console.log('Frame buffer object is incomplete: ' + e.toString());
-    }
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null)
-    gl.bindRenderbuffer(gl.RENDERBUFFER, null)
-    return frameBuffer
-}
-function renderFBO(gl: WebGLRenderingContext) {
-    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo)
-    gl.viewport(0, 0, device.width, device.height)
-    gl.clearColor(1, 1, 1, 1)
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-    gl.enable(gl.DEPTH_TEST)
+//     var e = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
+//     if (gl.FRAMEBUFFER_COMPLETE !== e) {
+//         console.log('Frame buffer object is incomplete: ' + e.toString());
+//     }
+//     gl.bindFramebuffer(gl.FRAMEBUFFER, null)
+//     gl.bindRenderbuffer(gl.RENDERBUFFER, null)
+//     return frameBuffer
+// }
+// function renderFBO(gl: WebGLRenderingContext) {
+//     gl.bindFramebuffer(gl.FRAMEBUFFER, fbo)
+//     gl.viewport(0, 0, device.width, device.height)
+//     gl.clearColor(1, 1, 1, 1)
+//     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+//     gl.enable(gl.DEPTH_TEST)
 
-}
+// }
 // ========================
 function canvaslInit(canvas: HTMLCanvasElement) {
     canvas.onmousedown = handleMouseDown
@@ -247,7 +247,7 @@ function canvaslInit(canvas: HTMLCanvasElement) {
         down: false,
         moving: false
     }
-    const position = {x:0, y:0}
+    const position = { x: 0, y: 0 }
     function handleMouseDown(e: MouseEvent) {
         mouse.down = true
         position.x = e.clientX
@@ -262,7 +262,7 @@ function canvaslInit(canvas: HTMLCanvasElement) {
         if (!mouse.down) return
         const offsetX = position.x - e.clientX
         const offsetY = position.y - e.clientY
-        camera.rotation.y += offsetX  * .0001
+        camera.rotation.y += offsetX * .0001
         camera.rotation.x += offsetY * .0001
     }
 }

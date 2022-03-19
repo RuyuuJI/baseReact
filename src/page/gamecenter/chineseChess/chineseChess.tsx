@@ -1,7 +1,6 @@
-import React, { Fragment, ReactElement, useEffect, useState } from 'react';
-import { EnumType, Type } from 'typescript';
+import React, { Fragment, useEffect, useState } from 'react';
 import { person, PersonState } from '../../../constants/user';
-import { arrayRandomSplite, deepCopy, isNull } from '../../../tool/fn';
+import { arrayRandomSplite, isNull } from '../../../tool/fn';
 import { CharacterEnum, Chess, chessList, position } from './chesses';
 import './chineseChess.scss'
 export enum ElementClassEnum { Chess = 'Chess', Cell = 'Cell', Bord = 'Bord' }
@@ -40,11 +39,10 @@ class Cell {
     protected destroyChess() {
         this.content = null
     }
-    static Element(cell?: Cell) {
+    static Element(cell: Cell) {
         const x = cell?.position?.x
         const y = cell?.position?.y
         return function Render() {
-            useEffect(() => { }, [cell?.status])
             return (
                 <div className={`${ElementClassEnum.Cell} ${x + ' ' + y} ${cell && CellStatusEnum[cell.status]}`} key={x + '-' + y}>
                     {
@@ -209,7 +207,8 @@ export class Bord {
             // TODO: 
             if (this.current.player
                 && (this.current.player?.character === chess.option.character)
-                && this.current.player === this.current.player) {
+                // && this.current.player === this.current.player)
+            ) {
                 flag = true
             }
         }
@@ -343,14 +342,13 @@ class Game {
 // =======================
 const person1: person = { name: '1号选手', id: '123', write: 'one', state: PersonState.ready }
 const person2: person = { name: '2号选手', id: '123', write: 'two', state: PersonState.ready }
-interface EmptyProps {
-}
+
 const gamedefault = new Game([person1, person2])
 function ChineseChess(props: { game?: Game }) {
     const { game = gamedefault } = props
 
-    const [count, setcount] = useState(1);
-    const [currentbord, setCurrentbord] = useState(game.bord);
+    const [, setcount] = useState(1);
+    const [currentbord,] = useState(game.bord);
 
     // variable
     let BordElement = Bord.ElementFunction()(currentbord)
@@ -364,7 +362,7 @@ function ChineseChess(props: { game?: Game }) {
         game.addUpdatedCallback(() => {
             setcount(count => count + 1)
         })
-    }, [])
+    })
     return (
         <div className="ChineseChess">
             <div className="operation">

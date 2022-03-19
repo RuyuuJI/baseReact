@@ -8,7 +8,6 @@ import {
 import React from 'react';
 import { user } from './core/user'
 import { Communicate } from './modules/communicate';
-import { person } from './constants/user';
 import { ThemeSet } from './modules/themeSet';
 
 class App extends React.Component<{ history: any }, { hideHeader: boolean }> {

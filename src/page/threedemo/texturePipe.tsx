@@ -13,7 +13,7 @@ import { randomColor } from '../../tool/fn';
 class Secen extends React.Component {
     async componentDidMount() {
         init()
-        const {cube, sphere} = await initCube()
+        const { cube, sphere } = await initCube()
         renderer.setAnimationLoop((t) => {
             sphere.visible = false
             cube.camera.position.copy(cube.mesh.position)
@@ -25,7 +25,7 @@ class Secen extends React.Component {
             cube.mat.uniforms.t.value = t
 
         })
-    
+
     }
     componentWillUnmount() {
         animateLoop && animateLoop.destroy()
@@ -57,16 +57,16 @@ function init() {
     containerDom.appendChild(renderer.domElement)
     initLight()
     initGUI()
-      // axes
-      const axesHelper = new THREE.AxesHelper(5);
-      scene.add(axesHelper);
+    // axes
+    const axesHelper = new THREE.AxesHelper(5);
+    scene.add(axesHelper);
 }
 
 async function initCube() {
     const cubeRT = new THREE.WebGLCubeRenderTarget(128)
-  
+
     const imageAstroanut = await (new TextureLoader().load('/textures/astronaut.png'))
-    
+
     const imageWind = await (new TextureLoader().load('/textures/wind.png'))
     imageWind.wrapS = imageWind.wrapT = THREE.MirroredRepeatWrapping
     THREE.ShaderChunk.my_map_fragment = `
@@ -86,16 +86,16 @@ async function initCube() {
     const camera = new THREE.CubeCamera(.1, 1000, cubeRT)
     const geom = new THREE.SphereBufferGeometry(4, 32, 32)
     const mat = new THREE.ShaderMaterial({
-            uniforms: THREE.UniformsUtils.merge([THREE.ShaderLib.basic.uniforms, { t: {value: 0}}]),
-            vertexShader: THREE.ShaderLib.basic.vertexShader,
-            fragmentShader: `uniform float t;\n ` + THREE.ShaderLib.basic.fragmentShader.replace('<map_fragment>', '<my_map_fragment>'),
-            side: THREE.BackSide
-        });
+        uniforms: THREE.UniformsUtils.merge([THREE.ShaderLib.basic.uniforms, { t: { value: 0 } }]),
+        vertexShader: THREE.ShaderLib.basic.vertexShader,
+        fragmentShader: `uniform float t;\n ` + THREE.ShaderLib.basic.fragmentShader.replace('<map_fragment>', '<my_map_fragment>'),
+        side: THREE.BackSide
+    });
     (mat as any).map = mat.uniforms.map.value = imageWind
     const cubeMesh = new THREE.Mesh(geom, mat)
     cubeMesh.scale.set(1, 20, 1)
     const cube = {
-        camera,mat,
+        camera, mat,
         mesh: cubeMesh
     }
     scene.add(cubeMesh)
@@ -109,10 +109,10 @@ async function initCube() {
             metalness: 1, roughness: 0,
             map: imageAstroanut
         })
-        )
-        scene.add(sphere)
-        console.log("cube", cube)
-    return {cube, sphere}
+    )
+    scene.add(sphere)
+    console.log("cube", cube)
+    return { cube, sphere }
 }
 // ===============
 function initLight() {
@@ -137,7 +137,7 @@ function initGUI() {
     gui = null
     gui = new dat.GUI()
     const fold = gui.addFolder('strategy choose')
-    const basenSetting: { [key: string]: Object } = {}
+    // const basenSetting: { [key: string]: Object } = {}
     // basenSetting['default'] = () => particle.changeStrategy(defaultStrategy)
     // basenSetting['cube'] = () => particle.changeStrategy(cubeStrategy)
     // basenSetting['sphere'] = () => particle.changeStrategy(sphereStrategy)
