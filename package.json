@@ -30,7 +30,8 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "set PORT=8002 && react-scripts start",
+    "server": "PORT=8002 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -65,7 +66,7 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^5.0.0",
-    "sass-loader": "^11.0.1"
+    "sass": "^1.49.9",
+    "sass-loader": "^10.2.1"
   }
 }
